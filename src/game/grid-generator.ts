@@ -15,6 +15,7 @@ function shuffle<T>(array: T[]): T[] {
 }
 
 export function generateGridItems(level: Level, goodFoodImages: string[], badFoodImages: string[]): FoodItem[] {
+  let idCounter = 0;
   const gridSize = level.gridSize.rows * level.gridSize.cols;
   
   // Number of unsafe items scales with the level
@@ -29,6 +30,7 @@ export function generateGridItems(level: Level, goodFoodImages: string[], badFoo
 
   const selectedBadFoods = shuffle(badFoodImages).slice(0, unsafeCount);
   const unsafeItems: FoodItem[] = selectedBadFoods.map(image => ({
+    id: `item-${idCounter++}`,
     name: image.split('.')[0], // Use filename as name
     isUnsafe: true,
     image: `/images/bad_food/${image}`
@@ -36,6 +38,7 @@ export function generateGridItems(level: Level, goodFoodImages: string[], badFoo
 
   const selectedGoodFoods = shuffle(goodFoodImages).slice(0, safeCount);
   const safeItems: FoodItem[] = selectedGoodFoods.map(image => ({
+    id: `item-${idCounter++}`,
     name: image.split('.')[0],
     isUnsafe: false,
     image: `/images/good_food/${image}`
@@ -43,5 +46,6 @@ export function generateGridItems(level: Level, goodFoodImages: string[], badFoo
 
   const gridItems = [...unsafeItems, ...safeItems];
   
-  return shuffle(gridItems);
+  // Return without shuffling, so the grid is stable
+  return gridItems;
 }

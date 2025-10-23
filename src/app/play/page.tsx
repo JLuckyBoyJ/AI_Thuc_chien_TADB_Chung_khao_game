@@ -50,29 +50,31 @@ export default function PlayPage() {
   useEffect(() => {
     // Check for game over by health
     if (gameState.health <= 0) {
-      setGameState(prev => ({ ...prev, isGameOver: true }));
-      playSound('gameOver'); // "tò te tí"
+      if (!gameState.isGameOver) { // Prevent multiple sound plays
+        playSound('gameOver');
+        setGameState(prev => ({ ...prev, isGameOver: true }));
+      }
     }
 
     // Check for win condition
-    const remainingUnsafeItems = gridItems.filter(item => item.isUnsafe).length;
-    if (gridItems.length > 0 && remainingUnsafeItems === 0) {
-      playSound('win'); // "đoạn nhạc chiến thắng ngắn"
+    const remainingUnsafeItems = gridItems.filter(item => item.isUnsafe && !item.isHidden).length;
+    if (!gameState.isGameOver && gridItems.length > 0 && remainingUnsafeItems === 0) {
+      playSound('win');
       setTimeout(goToNextLevel, 1000); // Wait a second before advancing
     }
-  }, [gameState.health, gridItems]);
+  }, [gameState, gridItems]); // Dependency updated to gameState
 
   const handleItemClick = (item: FoodItem) => {
-    if (gameState.isGameOver) return;
+    if (gameState.isGameOver || item.isHidden) return;
 
     if (item.isUnsafe) {
-      playSound('correct'); // "ting ting", "póc"
-      // Correct click
-      setGridItems(prevItems => prevItems.filter(i => i.name !== item.name));
+      playSound('correct');
+      setGridItems(prevItems =>
+        prevItems.map(i => (i.id === item.id ? { ...i, isHidden: true } : i))
+      );
       setGameState(prev => ({ ...prev, score: prev.score + 10 }));
     } else {
-      playSound('incorrect'); // "xoẹt", "buzz"
-      // Incorrect click
+      playSound('incorrect');
       setGameState(prev => ({ ...prev, health: prev.health - 1 }));
     }
   };
@@ -83,8 +85,12 @@ export default function PlayPage() {
   };
 
   const handleRestart = () => {
-    setGameState(initialGameState);
     setAllLevelsCompleted(false);
+    setGameState(initialGameState);
+    // Manually trigger grid regeneration to ensure a fresh start
+    if (imageLists.goodFood.length > 0 || imageLists.badFood.length > 0) {
+      setGridItems(generateGridItems(levels[0], imageLists.goodFood, imageLists.badFood));
+    }
   };
 
   return (

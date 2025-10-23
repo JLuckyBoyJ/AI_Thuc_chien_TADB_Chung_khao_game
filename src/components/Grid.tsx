@@ -21,19 +21,21 @@ const Grid: React.FC<GridProps> = ({ rows, cols, items, onItemClick }) => {
 
   return (
     <div style={gridStyle}>
-      {items.map((item, index) => (
+      {items.map((item) => (
         <div 
-          key={index} 
+          key={item.id} 
           className="border-2 border-gray-300 h-24 w-24 flex items-center justify-center text-center cursor-pointer hover:bg-gray-200"
           onClick={() => onItemClick(item)}
         >
-          <Image 
-            src={item.image} 
-            alt={item.name} 
-            width={80} 
-            height={80} 
-            className="object-contain"
-          />
+          {!item.isHidden && (
+            <Image 
+              src={item.image} 
+              alt={item.name} 
+              width={80} 
+              height={80} 
+              className="object-contain"
+            />
+          )}
         </div>
       ))}
     </div>
