@@ -14,16 +14,21 @@ function shuffle<T>(array: T[]): T[] {
   return array;
 }
 
-export function generateGridItems(level: Level, goodFoodImages: string[], badFoodImages: string[]): FoodItem[] {
+export function generateGridItems(level: Level, goodFoodImages: string[], badFoodImages:string[]): FoodItem[] {
   let idCounter = 0;
   const gridSize = level.gridSize.rows * level.gridSize.cols;
   
   // Number of unsafe items scales with the level
   let unsafeCount = Math.min(badFoodImages.length, level.level + 1);
 
-  // Ensure there's at least one safe item if we have safe images and the grid would otherwise be full
-  if (gridSize > 0 && goodFoodImages.length > 0 && unsafeCount >= gridSize) {
-    unsafeCount = gridSize - 1;
+  // Ensure there is at least one unsafe item, if possible.
+  if (badFoodImages.length > 0) {
+    unsafeCount = Math.max(1, unsafeCount);
+  }
+
+  // Ensure we don't overflow the grid
+  if (unsafeCount > gridSize) {
+    unsafeCount = gridSize;
   }
   
   const safeCount = gridSize - unsafeCount;
@@ -46,6 +51,5 @@ export function generateGridItems(level: Level, goodFoodImages: string[], badFoo
 
   const gridItems = [...unsafeItems, ...safeItems];
   
-  // Return without shuffling, so the grid is stable
-  return gridItems;
+  return shuffle(gridItems);
 }
