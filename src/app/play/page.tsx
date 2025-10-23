@@ -103,7 +103,6 @@ export default function PlayPage() {
         <div className="text-xl font-bold">Score: {gameState.score}</div>
       </div>
       <h1 className="text-2xl font-bold">Level {levelData.level}</h1>
-      <p className="text-lg mb-4">{levelData.theme}</p>
       <Grid 
         rows={levelData.gridSize.rows} 
         cols={levelData.gridSize.cols}
