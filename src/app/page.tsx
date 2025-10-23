@@ -9,11 +9,12 @@ export default function Home() {
       <div className="text-center">
         <h1 className="text-6xl font-bold text-green-600 mb-4">Speedy Clean Scan</h1>
         <p className="text-lg text-red-600 mb-8">
-          Your mission: Identify and remove all contaminated food items before time runs out!
+          {/* Your mission: Identify and remove all contaminated food items before time runs out! */}
+          Nhiệm vụ của bạn: Chọn tất cả các thực phẩm sạch trước khi thời gian hết!
         </p>
         <Link href="/play">
           <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full text-2xl">
-            Start Game
+            Bắt đầu
           </button>
         </Link>
       </div>
@@ -26,12 +27,12 @@ export default function Home() {
         />
       </div>
       <div className="absolute bottom-10 right-10 bg-white p-6 rounded-lg shadow-lg max-w-sm text-red-600">
-          <h2 className="text-2xl font-bold mb-4">How to Play</h2>
+          <h2 className="text-2xl font-bold mb-4">Cách chơi</h2>
           <ul className="list-disc list-inside text-left">
-              <li>Click on the spoiled or unsafe food items to remove them.</li>
-              <li>Each correct click earns you points.</li>
-              <li>Each incorrect click will cost you a life.</li>
-              <li>Clear the grid before the timer runs out to win!</li>
+              <li>Nhấn vào các thực phẩm bị ôi thiu hoặc không an toàn để xóa chúng.</li>
+              <li>Mỗi lần nhấn đúng sẽ được cộng điểm.</li>
+              <li>Mỗi lần nhấn sai sẽ mất một mạng.</li>
+              <li>Chọn tất cả các thực phẩm tốt trước khi thời gian hết!</li>
           </ul>
       </div>
     </main>

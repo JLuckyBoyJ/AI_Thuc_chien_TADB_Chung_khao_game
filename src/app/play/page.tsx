@@ -106,9 +106,9 @@ export default function PlayPage() {
       <div className="flex justify-between w-full max-w-lg mb-4">
         <HealthBar health={gameState.health} />
         <Timer duration={60} onTimeUp={handleTimeUp} />
-        <div className="text-xl font-bold">Score: {gameState.score}</div>
+        <div className="text-xl font-bold">Điểm: {gameState.score}</div>
       </div>
-      <h1 className="text-2xl font-bold">Level {levelData.level}</h1>
+      <h1 className="text-2xl font-bold">Màn chơi {levelData.level}</h1>
       <Grid 
         rows={levelData.gridSize.rows} 
         cols={levelData.gridSize.cols}
