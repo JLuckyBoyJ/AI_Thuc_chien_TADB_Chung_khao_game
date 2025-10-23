@@ -19,7 +19,7 @@ export default function Home() {
       </div>
       <div className="absolute bottom-10 left-10">
         <Image 
-          src={`/images/main_characters/health_${remainingHealth}.png`} 
+          src={`/images/main_character/health_${remainingHealth}.jpg`} 
           alt="Bao Bao Character" 
           width={160} 
           height={160} 

@@ -11,6 +11,7 @@ import Timer from '@/components/Timer';
 import GameOverModal from '@/components/GameOverModal';
 import YouWinModal from '@/components/YouWinModal';
 import { playSound } from '@/utils/audio';
+import Image from 'next/image';
 
 export default function PlayPage() {
   const [gameState, setGameState] = useState<GameState>(initialGameState);
@@ -88,6 +89,14 @@ export default function PlayPage() {
 
   return (
     <div className="container mx-auto p-4 flex flex-col items-center relative">
+      <div className="absolute bottom-10 left-10">
+        <Image 
+          src={`/images/main_character/health_${gameState.health}.jpg`} 
+          alt="Bao Bao Character" 
+          width={160} 
+          height={160} 
+        />
+      </div>
       <div className="flex justify-between w-full max-w-lg mb-4">
         <HealthBar health={gameState.health} />
         <Timer duration={60} onTimeUp={handleTimeUp} />
