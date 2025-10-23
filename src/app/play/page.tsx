@@ -38,6 +38,7 @@ export default function PlayPage() {
 
   const goToNextLevel = () => {
     if (gameState.level < levels.length) {
+      setGridItems([]); // Clear the grid to prevent re-triggering the win condition
       setGameState(prev => ({
         ...prev,
         level: prev.level + 1,
