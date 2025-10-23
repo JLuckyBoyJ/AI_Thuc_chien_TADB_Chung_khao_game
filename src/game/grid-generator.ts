@@ -17,19 +17,24 @@ function shuffle<T>(array: T[]): T[] {
 export function generateGridItems(level: Level, goodFoodImages: string[], badFoodImages: string[]): FoodItem[] {
   const gridSize = level.gridSize.rows * level.gridSize.cols;
   
-  // For simplicity, let's say each level has a fixed number of unsafe items.
-  // This can be made more dynamic later.
-  const numberOfUnsafeItems = Math.min(badFoodImages.length, Math.floor(gridSize / 3)); // e.g., 1/3 of the grid
+  // Number of unsafe items scales with the level
+  let unsafeCount = Math.min(badFoodImages.length, level.level + 1);
+
+  // Ensure there's at least one safe item if we have safe images and the grid would otherwise be full
+  if (gridSize > 0 && goodFoodImages.length > 0 && unsafeCount >= gridSize) {
+    unsafeCount = gridSize - 1;
+  }
   
-  const selectedBadFoods = shuffle(badFoodImages).slice(0, numberOfUnsafeItems);
+  const safeCount = gridSize - unsafeCount;
+
+  const selectedBadFoods = shuffle(badFoodImages).slice(0, unsafeCount);
   const unsafeItems: FoodItem[] = selectedBadFoods.map(image => ({
     name: image.split('.')[0], // Use filename as name
     isUnsafe: true,
     image: `/images/bad_food/${image}`
   }));
 
-  const numberOfSafeItems = gridSize - numberOfUnsafeItems;
-  const selectedGoodFoods = shuffle(goodFoodImages).slice(0, numberOfSafeItems);
+  const selectedGoodFoods = shuffle(goodFoodImages).slice(0, safeCount);
   const safeItems: FoodItem[] = selectedGoodFoods.map(image => ({
     name: image.split('.')[0],
     isUnsafe: false,

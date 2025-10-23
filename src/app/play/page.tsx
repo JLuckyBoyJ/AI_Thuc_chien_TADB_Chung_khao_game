@@ -9,12 +9,14 @@ import Grid from '@/components/Grid';
 import HealthBar from '@/components/HealthBar';
 import Timer from '@/components/Timer';
 import GameOverModal from '@/components/GameOverModal';
+import YouWinModal from '@/components/YouWinModal';
 import { playSound } from '@/utils/audio';
 
 export default function PlayPage() {
   const [gameState, setGameState] = useState<GameState>(initialGameState);
   const [gridItems, setGridItems] = useState<FoodItem[]>([]);
   const [imageLists, setImageLists] = useState<{ goodFood: string[], badFood: string[] }>({ goodFood: [], badFood: [] });
+  const [isAllLevelsCompleted, setAllLevelsCompleted] = useState(false);
   
   const levelData = levels[gameState.level - 1];
 
@@ -33,6 +35,17 @@ export default function PlayPage() {
     }
   }, [gameState.level, levelData, imageLists]);
 
+  const goToNextLevel = () => {
+    if (gameState.level < levels.length) {
+      setGameState(prev => ({
+        ...prev,
+        level: prev.level + 1,
+      }));
+    } else {
+      setAllLevelsCompleted(true);
+    }
+  };
+
   useEffect(() => {
     // Check for game over by health
     if (gameState.health <= 0) {
@@ -44,7 +57,7 @@ export default function PlayPage() {
     const remainingUnsafeItems = gridItems.filter(item => item.isUnsafe).length;
     if (gridItems.length > 0 && remainingUnsafeItems === 0) {
       playSound('win'); // "đoạn nhạc chiến thắng ngắn"
-      // TODO: Go to the next level or show a win screen
+      setTimeout(goToNextLevel, 1000); // Wait a second before advancing
     }
   }, [gameState.health, gridItems]);
 
@@ -70,6 +83,7 @@ export default function PlayPage() {
 
   const handleRestart = () => {
     setGameState(initialGameState);
+    setAllLevelsCompleted(false);
   };
 
   return (
@@ -92,6 +106,13 @@ export default function PlayPage() {
         <GameOverModal 
           score={gameState.score} 
           onRestart={handleRestart} 
+        />
+      )}
+
+      {isAllLevelsCompleted && (
+        <YouWinModal
+          score={gameState.score}
+          onPlayAgain={handleRestart}
         />
       )}
     </div>
