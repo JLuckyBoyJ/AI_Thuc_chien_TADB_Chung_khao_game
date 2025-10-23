@@ -10,7 +10,7 @@ export default function Home() {
         <h1 className="text-6xl font-bold text-green-600 mb-4">Speedy Clean Scan</h1>
         <p className="text-lg text-red-600 mb-8">
           {/* Your mission: Identify and remove all contaminated food items before time runs out! */}
-          Nhiệm vụ của bạn: Chọn tất cả các thực phẩm sạch trước khi thời gian hết!
+          Nhiệm vụ của bạn: Loại bỏ tất cả các thực phẩm bị ôi thiu hoặc không an toàn trước khi thời gian hết!
         </p>
         <Link href="/play">
           <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full text-2xl">
@@ -32,7 +32,6 @@ export default function Home() {
               <li>Nhấn vào các thực phẩm bị ôi thiu hoặc không an toàn để xóa chúng.</li>
               <li>Mỗi lần nhấn đúng sẽ được cộng điểm.</li>
               <li>Mỗi lần nhấn sai sẽ mất một mạng.</li>
-              <li>Chọn tất cả các thực phẩm tốt trước khi thời gian hết!</li>
           </ul>
       </div>
     </main>
